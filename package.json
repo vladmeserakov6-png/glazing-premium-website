@@ -8,7 +8,9 @@
     "start": "next start --hostname 0.0.0.0",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "concepts:build": "node scripts/build-concepts.mjs",
+    "concepts:screenshots": "node scripts/capture-concepts.mjs"
   },
   "engines": {
     "node": ">=22.0.0"
@@ -22,6 +24,7 @@
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.2",
+    "sharp": "0.35.5",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3"
   },

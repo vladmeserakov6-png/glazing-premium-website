@@ -20,6 +20,8 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
+      - run: npm run concepts:build
+      - run: git diff --exit-code -- public/concepts
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build

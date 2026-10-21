@@ -6,6 +6,7 @@ export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
   globalIgnores([
+    "public/concepts/**",
     ".next/**",
     "out/**",
     "next-env.d.ts",
