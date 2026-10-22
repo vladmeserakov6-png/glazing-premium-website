@@ -20,7 +20,7 @@
 
 - `Button` / `ButtonLink`: primary, light, outline, dark; кнопка для действия, ссылка для перехода.
 - `SectionHeading`: номер, надзаголовок, заголовок и пояснение.
-- `Reveal`: Motion, reduced motion; содержимое видно без анимации и JavaScript.
+- `Reveal`: CSS и IntersectionObserver, reduced motion; содержимое видно без анимации и JavaScript.
 - `Modal`: нативный dialog, доступное имя, удержание фокуса, Escape, возврат фокуса, блокировка фонового взаимодействия.
 - `ProjectProvider`: единый сценарий «описание услуги → задание».
 

@@ -1,9 +1,10 @@
+import { homeAnchor } from "@/lib/paths";
 export function Logo({ light = false }: { light?: boolean }) {
   return (
     <a
       className={`logo${light ? " logo--light" : ""}`}
-      href="#top"
-      aria-label="ПРОСВЕТ — на главную"
+      href={homeAnchor("#top")}
+      aria-label="ПРОСВЕТ. Архитектура остекления — на главную"
     >
       <svg
         aria-hidden="true"

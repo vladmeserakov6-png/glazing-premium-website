@@ -1,3 +1,4 @@
+import { homeAnchor } from "@/lib/paths";
 import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { site } from "@/content/site";
 import { Logo } from "./logo";
@@ -19,7 +20,7 @@ export function Footer() {
           <div className="footer-links">
             <p className="footer-label">Исследуйте</p>
             {site.navigation.map((item) => (
-              <a href={item.href} key={item.href}>
+              <a href={homeAnchor(item.href)} key={item.href}>
                 {item.label}
               </a>
             ))}
@@ -39,7 +40,7 @@ export function Footer() {
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} ПРОСВЕТ. Дизайн-концепция.</p>
           <p>Изображения — архитектурные референсы.</p>
-          <a href="#top">
+          <a href={homeAnchor("#top")}>
             Наверх <ArrowUp size={15} />
           </a>
         </div>

@@ -4,13 +4,19 @@ import Image from "next/image";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { categories, services, type ServiceCategory } from "@/content/site";
-import { ServiceButton } from "@/components/project/project-provider";
+import {
+  ServiceButton,
+  SaveButton,
+  useProject,
+} from "@/components/project/project-provider";
+import { assetPath } from "@/lib/paths";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 
 export function Services() {
   const [category, setCategory] = useState<"all" | ServiceCategory>("all");
   const [expanded, setExpanded] = useState(false);
+  const { saved, openSelection } = useProject();
   const filtered = services.filter(
     (service) => category === "all" || category === service.category,
   );
@@ -33,40 +39,54 @@ export function Services() {
             id="services-heading"
           />
         </Reveal>
-        <div className="service-filters" role="group" aria-label="Тип объекта">
-          {categories.map((item) => (
-            <button
-              type="button"
-              aria-pressed={category === item.id}
-              key={item.id}
-              onClick={() => setCategory(item.id)}
-              className={
-                category === item.id
-                  ? "filter-button is-active"
-                  : "filter-button"
-              }
-            >
-              {item.label}
-              {item.id === "all" && (
-                <span>{services.length.toString().padStart(2, "0")}</span>
-              )}
-            </button>
-          ))}
+        <div className="catalog-tools">
+          <div
+            className="service-filters"
+            role="group"
+            aria-label="Тип объекта"
+          >
+            {categories.map((item) => (
+              <button
+                type="button"
+                aria-pressed={category === item.id}
+                key={item.id}
+                onClick={() => setCategory(item.id)}
+                className={
+                  category === item.id
+                    ? "filter-button is-active"
+                    : "filter-button"
+                }
+              >
+                {item.label}
+                {item.id === "all" && (
+                  <span>{services.length.toString().padStart(2, "0")}</span>
+                )}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="catalog-compare"
+            onClick={openSelection}
+          >
+            Избранное и сравнение <span>{saved.length}</span>
+            <ArrowUpRight size={16} />
+          </button>
         </div>
         <p className="sr-only" role="status">
           Показано решений: {visible.length} из {filtered.length}
         </p>
         <div className="services-grid">
-          {visible.map((service, index) => (
+          {visible.map((service) => (
             <article className="service-card" key={service.id}>
               <ServiceButton
                 serviceId={service.id}
                 className="service-card-button"
-                aria-label={`Подробнее: ${service.title}`}
+                aria-label={`Подробнее: ${service.shortTitle}`}
               >
                 <div className="service-image">
                   <Image
-                    src={service.image}
+                    src={assetPath(service.image)}
                     alt={service.imageAlt}
                     fill
                     sizes="(max-width: 599px) 100vw, (max-width: 1099px) 50vw, 25vw"
@@ -75,18 +95,16 @@ export function Services() {
                       objectPosition: service.imagePosition,
                     }}
                   />
-                  <span className="service-number">
-                    {(index + 1).toString().padStart(2, "0")}
-                  </span>
                   <span className="service-arrow">
                     <ArrowUpRight size={22} strokeWidth={1.5} />
                   </span>
                 </div>
                 <div className="service-card-content">
                   <h3>{service.shortTitle}</h3>
-                  <p>{service.description}</p>
                 </div>
               </ServiceButton>
+              <p>{service.description}</p>
+              <SaveButton serviceId={service.id} />
             </article>
           ))}
         </div>

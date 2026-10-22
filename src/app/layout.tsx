@@ -4,9 +4,13 @@ import { site } from "@/content/site";
 import { ProjectProvider } from "@/components/project/project-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { QuickActions } from "@/components/layout/quick-actions";
+import { assetPath, siteUrl } from "@/lib/paths";
 import "./globals.css";
+import "./interactions.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(`${siteUrl}/`),
   title: "ПРОСВЕТ — современное остекление для вашего комфорта",
   description: site.description,
   robots: { index: false, follow: false },
@@ -15,7 +19,18 @@ export const metadata: Metadata = {
     description: site.description,
     locale: "ru_RU",
     type: "website",
+    url: `${siteUrl}/`,
+    images: [
+      {
+        url: new URL(`${siteUrl}/images/architecture.webp`).href,
+        width: 1672,
+        height: 941,
+        alt: "Архитектурная идея панорамного остекления",
+      },
+    ],
   },
+  alternates: { canonical: `${siteUrl}/` },
+  icons: { icon: assetPath("/icon.svg") },
 };
 
 export default function RootLayout({
@@ -32,6 +47,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <QuickActions />
         </ProjectProvider>
       </body>
     </html>

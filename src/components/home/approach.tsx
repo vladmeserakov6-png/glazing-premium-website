@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ArrowUpRight, Ruler, SlidersHorizontal, Layers3 } from "lucide-react";
 import { BriefButton } from "@/components/project/project-provider";
 import { Reveal } from "@/components/ui/reveal";
+import { assetPath } from "@/lib/paths";
 
 const details = [
   {
@@ -31,7 +32,7 @@ export function Approach() {
       <div className="container approach-grid">
         <div className="approach-image">
           <Image
-            src="/images/interior.webp"
+            src={assetPath("/images/interior.webp")}
             alt="Гостиная, объединенная с садом панорамными окнами — визуальный референс"
             fill
             sizes="(max-width: 900px) 100vw, 50vw"

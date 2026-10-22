@@ -8,9 +8,10 @@ type Props = {
   onClose: () => void;
   titleId: string;
   children: ReactNode;
+  focusKey?: string;
 };
 
-export function Modal({ open, onClose, titleId, children }: Props) {
+export function Modal({ open, onClose, titleId, children, focusKey }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -21,12 +22,18 @@ export function Modal({ open, onClose, titleId, children }: Props) {
       return;
     }
     if (!dialog.open) dialog.showModal();
+    const heading = dialog.querySelector<HTMLElement>(`[id="${titleId}"]`);
+    if (heading) {
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    }
+    dialog.scrollTop = 0;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [open]);
+  }, [open, focusKey, titleId]);
 
   return (
     <dialog
@@ -43,6 +50,12 @@ export function Modal({ open, onClose, titleId, children }: Props) {
         ).filter((element) => element.getClientRects().length > 0);
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
+        // The title receives initial focus; lazy content may not yet contain fields.
+        if (!focusable.includes(document.activeElement as HTMLElement)) {
+          event.preventDefault();
+          (event.shiftKey ? last : first)?.focus();
+          return;
+        }
         if (event.shiftKey && document.activeElement === first) {
           event.preventDefault();
           last?.focus();

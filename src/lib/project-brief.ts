@@ -36,7 +36,30 @@ export const projectBriefSchema = z.object({
 
 export type ProjectBrief = z.infer<typeof projectBriefSchema>;
 
-export function formatProjectBrief(data: ProjectBrief) {
+export const EMPTY_BRIEF: ProjectBrief = {
+  service: "not-sure",
+  object: "Частный дом",
+  width: "",
+  height: "",
+  comment: "",
+};
+
+export function isProjectDraft(value: unknown): value is ProjectBrief {
+  if (!value || typeof value !== "object") return false;
+  const v = value as Record<string, unknown>;
+  return (
+    projectBriefSchema.shape.service.safeParse(v.service).success &&
+    projectBriefSchema.shape.object.safeParse(v.object).success &&
+    ["width", "height", "comment"].every(
+      (key) => typeof v[key] === "string" && (v[key] as string).length <= 6000,
+    )
+  );
+}
+
+export function formatProjectBrief(
+  data: ProjectBrief,
+  savedTitles: string[] = [],
+) {
   const title =
     services.find((service) => service.id === data.service)?.title ??
     "Нужна помощь с выбором";
@@ -48,6 +71,9 @@ export function formatProjectBrief(data: ProjectBrief) {
     `Примерная ширина проема: ${data.width ? `${data.width} мм` : "требует уточнения"}`,
     `Примерная высота проема: ${data.height ? `${data.height} мм` : "требует уточнения"}`,
     `Пожелания: ${data.comment || "требуют уточнения"}`,
+    ...(savedTitles.length
+      ? ["", `Избранные решения: ${savedTitles.join("; ")}`]
+      : []),
     "",
     "Размеры предварительные и не заменяют профессиональный замер.",
     "Стоимость и техническая возможность определяются после проверки объекта.",

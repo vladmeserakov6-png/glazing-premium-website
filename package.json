@@ -9,6 +9,9 @@
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
+    "preview:export": "node scripts/export-preview.mjs",
+    "preview:serve": "node scripts/serve-export.mjs",
+    "preview:check": "node scripts/check-export.mjs",
     "concepts:build": "node scripts/build-concepts.mjs",
     "concepts:screenshots": "node scripts/capture-concepts.mjs"
   },
@@ -32,7 +35,6 @@
     "@fontsource-variable/manrope": "5.3.0",
     "@hookform/resolvers": "5.2.2",
     "lucide-react": "1.61.0",
-    "motion": "14.5.0",
     "next": "16.4.2",
     "react": "19.3.1",
     "react-dom": "19.3.1",

@@ -1,36 +1,51 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Download, FileText } from "lucide-react";
+import { Check, Copy, Download, RotateCcw } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { services } from "@/content/site";
 import {
   formatProjectBrief,
   projectBriefSchema,
   type ProjectBrief,
+  EMPTY_BRIEF,
+  isProjectDraft,
 } from "@/lib/project-brief";
 import { Button } from "@/components/ui/button";
+import { useBrowserStorage } from "@/lib/browser-storage";
 
-export function ProjectBriefForm({ serviceId }: { serviceId?: string }) {
-  const [downloaded, setDownloaded] = useState(false);
+export function ProjectBriefForm({
+  serviceId,
+  seed,
+  savedTitles = [],
+}: {
+  serviceId?: string;
+  seed?: Partial<ProjectBrief>;
+  savedTitles?: string[];
+}) {
+  const [status, setStatus] = useState("");
+  const [draft, setDraft] = useBrowserStorage(
+    "prosvet:brief:v1",
+    EMPTY_BRIEF,
+    isProjectDraft,
+  );
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    getValues,
+    reset,
+    control,
+    formState: { errors, isSubmitting },
   } = useForm<ProjectBrief>({
     resolver: zodResolver(projectBriefSchema),
-    defaultValues: {
-      service: serviceId ?? "not-sure",
-      object: "Частный дом",
-      width: "",
-      height: "",
-      comment: "",
-    },
+    defaultValues: { ...draft, ...seed, service: serviceId ?? draft.service },
   });
+  const values: ProjectBrief = { ...EMPTY_BRIEF, ...useWatch({ control }) };
+  const text = formatProjectBrief(values, savedTitles);
 
   function downloadBrief(data: ProjectBrief) {
-    const blob = new Blob(["\uFEFF", formatProjectBrief(data)], {
+    const blob = new Blob(["\uFEFF", formatProjectBrief(data, savedTitles)], {
       type: "text/plain;charset=utf-8",
     });
     const url = URL.createObjectURL(blob);
@@ -41,19 +56,29 @@ export function ProjectBriefForm({ serviceId }: { serviceId?: string }) {
     anchor.click();
     anchor.remove();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setDownloaded(true);
+    setDraft(data);
+    setStatus(
+      "Файл подготовлен. Передайте его специалисту. Заявка не отправлена.",
+    );
+  }
+
+  async function copyBrief(data: ProjectBrief) {
+    try {
+      await navigator.clipboard.writeText(
+        formatProjectBrief(data, savedTitles),
+      );
+      setStatus(
+        "Задание скопировано. Передайте его специалисту. Заявка не отправлена.",
+      );
+    } catch {
+      setStatus(
+        "Копирование недоступно. Откройте «Текст задания» и скопируйте его вручную или скачайте файл.",
+      );
+    }
   }
 
   return (
-    <div className="brief-content">
-      <p className="eyebrow">
-        <FileText size={17} />
-        От идеи к решению
-      </p>
-      <h2 id="project-modal-title">
-        Расскажите о<br />
-        вашем пространстве
-      </h2>
+    <>
       <p className="modal-description">
         Подготовьте задание на расчет. Скачайте его и передайте специалисту для
         обсуждения проекта.
@@ -61,7 +86,10 @@ export function ProjectBriefForm({ serviceId }: { serviceId?: string }) {
       <form
         onSubmit={handleSubmit(downloadBrief)}
         noValidate
-        onChange={() => setDownloaded(false)}
+        onChange={() => {
+          setStatus("");
+          setDraft(getValues());
+        }}
       >
         <div className="form-grid">
           <div className="field">
@@ -180,20 +208,59 @@ export function ProjectBriefForm({ serviceId }: { serviceId?: string }) {
         </div>
         <p className="field-hint" id="privacy-note">
           Не указывайте персональные данные. Задание формируется в вашем
-          браузере и никуда не отправляется.
+          браузере и никуда не отправляется. Черновик сохраняется в этой
+          вкладке.
         </p>
-        <Button type="submit" className="brief-submit">
-          Скачать задание <Download size={18} />
-        </Button>
+        {savedTitles.length > 0 && (
+          <p className="brief-saved-note">
+            В задание включено избранное: {savedTitles.join(" · ")}
+          </p>
+        )}
+        <div className="brief-actions">
+          <Button
+            type="submit"
+            className="brief-submit"
+            disabled={isSubmitting}
+          >
+            Скачать задание <Download size={18} />
+          </Button>
+          <Button
+            variant="dark"
+            disabled={isSubmitting}
+            onClick={handleSubmit(copyBrief)}
+          >
+            {isSubmitting ? "Подготовка…" : "Копировать текст"}
+            <Copy size={17} />
+          </Button>
+        </div>
         <p className="download-status" role="status">
-          {downloaded && (
+          {status && (
             <>
               <Check size={18} />
-              Файл подготовлен. Передайте его специалисту. Заявка не отправлена.
+              {status}
             </>
           )}
         </p>
+        <details className="brief-preview">
+          <summary>Текст задания</summary>
+          <label className="sr-only" htmlFor="brief-text">
+            Текст задания для ручного копирования
+          </label>
+          <textarea id="brief-text" readOnly value={text} rows={10} />
+        </details>
+        <button
+          type="button"
+          className="text-link draft-reset"
+          onClick={() => {
+            reset(EMPTY_BRIEF);
+            setDraft(EMPTY_BRIEF);
+            setStatus("Черновик очищен.");
+          }}
+        >
+          <RotateCcw size={15} />
+          Очистить черновик
+        </button>
       </form>
-    </div>
+    </>
   );
 }

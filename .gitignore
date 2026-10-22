@@ -1,5 +1,6 @@
 node_modules/
 .next/
+public/images/responsive/
 out/
 coverage/
 playwright-report/

@@ -3,6 +3,7 @@ export const site = {
   description:
     "Современное остекление для вашего комфорта. Окна, балконы, лоджии, террасы и загородные дома — решения под ваши задачи.",
   navigation: [
+    { label: "Подбор", href: "#finder" },
     { label: "Решения", href: "#services" },
     { label: "Наш подход", href: "#approach" },
     { label: "Вдохновение", href: "#inspiration" },

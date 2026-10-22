@@ -63,7 +63,9 @@ test("задание проверяет размеры и скачивает в�
     if (request.method() === "POST") posts.push(request.url());
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "Подобрать решение" }).click();
+  await page
+    .getByRole("button", { name: "Подготовить задание на расчет" })
+    .click();
   const dialog = page.getByRole("dialog");
   await dialog.getByLabel("Ваш объект").selectOption("Квартира");
   await dialog
@@ -139,7 +141,9 @@ test("диалог удерживает фокус, закрывается по 
   page,
 }) => {
   await page.goto("/");
-  const trigger = page.getByRole("button", { name: "Подобрать решение" });
+  const trigger = page.getByRole("button", {
+    name: "Подготовить задание на расчет",
+  });
   await trigger.click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible();
@@ -183,7 +187,9 @@ test("доступность главной и формы: WCAG 2.2 AA", async (
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
   expect(home.violations).toEqual([]);
-  await page.getByRole("button", { name: "Подобрать решение" }).click();
+  await page
+    .getByRole("button", { name: "Подготовить задание на расчет" })
+    .click();
   const form = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
@@ -208,4 +214,16 @@ test("локальные изображения отдаются, чернови
   const missing = await request.get("/does-not-exist");
   expect(missing.status()).toBe(404);
   expect(await missing.text()).toContain("На главную");
+});
+
+test("навигация на странице 404 возвращает к разделам главной", async ({
+  page,
+}) => {
+  await page.goto("/does-not-exist");
+  await page
+    .locator("footer")
+    .getByRole("link", { name: "Решения", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/#services$/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });

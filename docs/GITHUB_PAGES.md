@@ -1,5 +1,15 @@
 # Как открыть сайт через GitHub Pages
 
+## Интерактивная итерация
+
+Исходники улучшенной версии находятся в `codex/interactive-upgrade`. Для проверки предусмотрен отдельный адрес:
+
+https://vladmeserakov6-png.github.io/glazing-premium-website/upgrade/
+
+Сборка воспроизводится командой `npm run preview:export`, проверяется `npm run preview:check`. Содержимое `out/` размещается в папке `upgrade/` ветки `codex/site-preview`; корневая главная и десять ранее опубликованных концепций сохраняются. Адрес доступен после успешной публикации GitHub Pages. Подробности: [интерактивная версия](INTERACTIVE_UPGRADE.md).
+
+## Исходный предпросмотр
+
 Подготовлены две ветки:
 
 - `codex/premium-homepage-stage-1` — исходный Next.js-проект для разработки и ревью.

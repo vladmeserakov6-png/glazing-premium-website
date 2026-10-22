@@ -1,21 +1,20 @@
 import Image from "next/image";
 import { ArrowDown, ArrowUpRight, MoveUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
-import {
-  BriefButton,
-  ServiceButton,
-} from "@/components/project/project-provider";
+import { assetPath } from "@/lib/paths";
+import { ServiceButton } from "@/components/project/project-provider";
 
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-heading">
       <Image
         className="hero-image"
-        src="/images/architecture.webp"
+        src={assetPath("/images/architecture.webp")}
         alt="Современный дом с панорамным остеклением и открытым видом на сад — архитектурная визуализация"
         fill
         sizes="100vw"
-        preload
+        loading="eager"
+        fetchPriority="high"
         quality={85}
       />
       <div className="hero-shade" />
@@ -38,9 +37,9 @@ export function Hero() {
             пространство.
           </p>
           <div className="hero-actions">
-            <BriefButton>
+            <ButtonLink href="#finder">
               Подобрать решение <ArrowUpRight size={19} />
-            </BriefButton>
+            </ButtonLink>
             <ButtonLink variant="outline" href="#services">
               Каталог услуг <ArrowDown size={17} />
             </ButtonLink>
