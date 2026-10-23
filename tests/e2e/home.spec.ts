@@ -8,10 +8,10 @@ test("главная загружается без ошибок, все якор
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
-  await expect(page).toHaveTitle(/ПРОСВЕТ/);
+  await expect(page).toHaveTitle(/TAHION/);
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
-    "Современноеостекление длявашего комфорта.",
+    /Больше света\.\s*Ближе к миру\./,
   );
   const missingAnchors = await page
     .locator('a[href^="#"]')
@@ -21,6 +21,16 @@ test("главная загружается без ошибок, все якор
         .filter((id) => !document.getElementById(id)),
     );
   expect(missingAnchors).toEqual([]);
+  const sections = await page
+    .locator("main > section")
+    .evaluateAll((items) =>
+      items
+        .slice(0, 3)
+        .map((item) => item.id || item.getAttribute("aria-labelledby")),
+    );
+  expect(sections).toEqual(["hero-heading", "details", "services"]);
+  await expect(page.locator("main")).not.toContainText("ПРОСВЕТ");
+
   await expect(page.locator(".service-card")).toHaveCount(4);
   expect(errors).toEqual([]);
 });
@@ -29,7 +39,7 @@ test("каталог раскрывается, фильтруется и отк�
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: /Все решения по остеклению/ }).click();
+  await page.getByRole("button", { name: /Все услуги/ }).click();
   await expect(page.locator(".service-card")).toHaveCount(8);
   await page.getByRole("button", { name: "Для квартиры", exact: true }).click();
   await expect(page.locator(".service-card")).toHaveCount(3);
@@ -120,9 +130,9 @@ test("меню адаптируется к ширине экрана и закр
       name: "Мобильная навигация",
     });
     await expect(navigation).toBeVisible();
-    await navigation.getByRole("link", { name: "Наш подход" }).click();
+    await navigation.getByRole("link", { name: "Технологии" }).click();
     await expect(navigation).not.toBeVisible();
-    await expect(page).toHaveURL(/#approach$/);
+    await expect(page).toHaveURL(/#details$/);
     await toggle.click();
     await page.keyboard.press("Escape");
     await expect(navigation).not.toBeVisible();
@@ -199,13 +209,20 @@ test("доступность главной и формы: WCAG 2.2 AA", async (
 test("локальные изображения отдаются, черновик закрыт от индексации", async ({
   request,
 }) => {
-  for (const name of ["architecture", "interior", "balcony", "terrace"]) {
+  for (const name of [
+    "tahion-hero",
+    "tahion-system",
+    "tahion-panoramic",
+    "tahion-house",
+    "tahion-balcony",
+    "tahion-terrace",
+  ]) {
     const response = await request.get(`/images/${name}.webp`);
     expect(response.ok()).toBe(true);
     expect(response.headers()["content-type"]).toContain("image/webp");
   }
   const optimizedHero = await request.get(
-    "/_next/image?url=%2Fimages%2Farchitecture.webp&w=1920&q=85",
+    "/_next/image?url=%2Fimages%2Ftahion-hero.webp&w=1920&q=85",
   );
   expect(optimizedHero.ok()).toBe(true);
   expect(optimizedHero.headers()["content-type"]).toMatch(/^image\//);
@@ -222,7 +239,7 @@ test("навигация на странице 404 возвращает к ра�
   await page.goto("/does-not-exist");
   await page
     .locator("footer")
-    .getByRole("link", { name: "Решения", exact: true })
+    .getByRole("link", { name: "Услуги", exact: true })
     .click();
   await expect(page).toHaveURL(/\/#services$/);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

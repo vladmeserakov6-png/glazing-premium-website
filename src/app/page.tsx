@@ -12,10 +12,10 @@ export default function HomePage() {
   return (
     <main id="main">
       <Hero />
+      <WindowAnatomy />
+      <Services />
       <Benefits />
       <SolutionFinder />
-      <Services />
-      <WindowAnatomy />
       <Approach />
       <Inspiration />
       <Faq />

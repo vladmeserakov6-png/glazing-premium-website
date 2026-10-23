@@ -8,21 +8,22 @@ import { QuickActions } from "@/components/layout/quick-actions";
 import { assetPath, siteUrl } from "@/lib/paths";
 import "./globals.css";
 import "./interactions.css";
+import "./tahion.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(`${siteUrl}/`),
-  title: "ПРОСВЕТ — современное остекление для вашего комфорта",
+  title: "TAHION — больше света, ближе к миру",
   description: site.description,
   robots: { index: false, follow: false },
   openGraph: {
-    title: "ПРОСВЕТ — архитектура остекления",
+    title: "TAHION — больше света, ближе к миру",
     description: site.description,
     locale: "ru_RU",
     type: "website",
     url: `${siteUrl}/`,
     images: [
       {
-        url: new URL(`${siteUrl}/images/architecture.webp`).href,
+        url: new URL(`${siteUrl}/images/tahion-hero.webp`).href,
         width: 1672,
         height: 941,
         alt: "Архитектурная идея панорамного остекления",

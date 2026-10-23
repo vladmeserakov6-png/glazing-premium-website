@@ -6,7 +6,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { serveExport } from "./serve-export.mjs";
 
 const basePath =
-  process.env.NEXT_PUBLIC_BASE_PATH ?? "/glazing-premium-website/upgrade";
+  process.env.NEXT_PUBLIC_BASE_PATH ?? "/glazing-premium-website";
 const server = await serveExport({ basePath });
 const browser = await chromium.launch({
   executablePath:
@@ -14,7 +14,7 @@ const browser = await chromium.launch({
     (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined),
 });
 const report = [];
-await mkdir("/tmp/glazing-upgrade-review", { recursive: true });
+await mkdir("/tmp/tahion-review", { recursive: true });
 try {
   for (const viewport of [
     { width: 1440, height: 1000 },
@@ -33,9 +33,7 @@ try {
     });
     await page.goto(`http://127.0.0.1:4183${basePath}/`);
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page
-      .getByRole("button", { name: /Все решения по остеклению/ })
-      .click();
+    await page.getByRole("button", { name: /Все услуги/ }).click();
     await page
       .getByRole("button", { name: "Больше архитектурных идей" })
       .click();
@@ -43,7 +41,7 @@ try {
       await image.scrollIntoViewIfNeeded();
       await image.evaluate((el) => el.decode());
     }
-    assert.equal(await page.locator("main img:visible").count(), 14);
+    assert.equal(await page.locator("main img:visible").count(), 15);
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -52,7 +50,7 @@ try {
     );
     await page.locator("header").scrollIntoViewIfNeeded();
     await page.screenshot({
-      path: `/tmp/glazing-upgrade-review/${viewport.width}.png`,
+      path: `/tmp/tahion-review/${viewport.width}.png`,
       fullPage: true,
     });
     const audit = await new AxeBuilder({ page })
@@ -125,7 +123,7 @@ try {
     assert.deepEqual(failures, []);
     report.push({
       viewport,
-      images: 14,
+      images: 15,
       errors: failures,
       axeViolations: 0,
       flows: ["catalog", "selection", "quiz", "download", "gallery"],
@@ -141,7 +139,7 @@ try {
   ).text();
   assert.ok(sitemap.includes(`${basePath}/`));
   await writeFile(
-    "/tmp/glazing-upgrade-review/static-check.json",
+    "/tmp/tahion-review/static-check.json",
     JSON.stringify(report, null, 2),
   );
   console.log(

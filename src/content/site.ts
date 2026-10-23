@@ -1,13 +1,11 @@
 export const site = {
-  name: "ПРОСВЕТ",
+  name: "TAHION",
   description:
-    "Современное остекление для вашего комфорта. Окна, балконы, лоджии, террасы и загородные дома — решения под ваши задачи.",
+    "TAHION — больше света, ближе к миру. Панорамное остекление, окна для дома, балконы и террасы — решения для вашего пространства.",
   navigation: [
-    { label: "Подбор", href: "#finder" },
-    { label: "Решения", href: "#services" },
-    { label: "Наш подход", href: "#approach" },
-    { label: "Вдохновение", href: "#inspiration" },
-    { label: "Вопросы", href: "#faq" },
+    { label: "Решения", href: "#finder" },
+    { label: "Технологии", href: "#details" },
+    { label: "Услуги", href: "#services" },
   ],
 } as const;
 
@@ -40,7 +38,7 @@ export const services: Service[] = [
     title: "Панорамное остекление",
     shortTitle: "Панорамное остекление",
     category: "house",
-    image: "/images/interior.webp",
+    image: "/images/tahion-panoramic.webp",
     imageAlt: "Светлая гостиная с панорамными окнами в тонком темном профиле",
     description: "Больше света. Меньше границ.",
     detail:
@@ -57,7 +55,7 @@ export const services: Service[] = [
     title: "Остекление балконов",
     shortTitle: "Балконы и лоджии",
     category: "apartment",
-    image: "/images/balcony.webp",
+    image: "/images/tahion-balcony.webp",
     imageAlt: "Светлый остекленный балкон с белыми оконными рамами и креслами",
     description: "Новый взгляд на привычное пространство.",
     detail:
@@ -72,9 +70,9 @@ export const services: Service[] = [
   {
     id: "cottage-glazing",
     title: "Остекление коттеджей",
-    shortTitle: "Дома и коттеджи",
+    shortTitle: "Окна для дома",
     category: "house",
-    image: "/images/architecture.webp",
+    image: "/images/tahion-house.webp",
     imageAlt: "Современный загородный дом с широким стеклянным фасадом",
     imagePosition: "75% center",
     description: "Архитектура, открытая природе.",
@@ -92,7 +90,7 @@ export const services: Service[] = [
     title: "Остекление террас",
     shortTitle: "Террасы и веранды",
     category: "outdoor",
-    image: "/images/terrace.webp",
+    image: "/images/tahion-terrace.webp",
     imageAlt: "Стеклянная терраса с раздвижными панелями и видом на сад",
     description: "Ближе к саду. Независимо от погоды.",
     detail:
@@ -109,7 +107,7 @@ export const services: Service[] = [
     title: "Пластиковые окна",
     shortTitle: "Пластиковые окна",
     category: "apartment",
-    image: "/images/balcony.webp",
+    image: "/images/tahion-balcony.webp",
     imageAlt:
       "Белые оконные профили и прозрачное остекление в светлом интерьере",
     imagePosition: "85% center",
@@ -128,7 +126,7 @@ export const services: Service[] = [
     title: "Алюминиевые окна",
     shortTitle: "Алюминиевые окна",
     category: "house",
-    image: "/images/interior.webp",
+    image: "/images/tahion-panoramic.webp",
     imageAlt: "Панорамное окно с тонкими темными алюминиевыми рамами",
     imagePosition: "right center",
     description: "Тонкие линии. Выразительный характер.",
@@ -146,7 +144,7 @@ export const services: Service[] = [
     title: "Остекление лоджий",
     shortTitle: "Остекление лоджий",
     category: "apartment",
-    image: "/images/balcony.webp",
+    image: "/images/tahion-balcony.webp",
     imageAlt: "Остекленная лоджия с естественным дневным освещением",
     imagePosition: "left center",
     description: "Место для ваших собственных сценариев.",
@@ -164,7 +162,7 @@ export const services: Service[] = [
     title: "Остекление веранд",
     shortTitle: "Остекление веранд",
     category: "outdoor",
-    image: "/images/terrace.webp",
+    image: "/images/tahion-terrace.webp",
     imageAlt:
       "Закрытая стеклянная веранда с обеденным столом и видом на зелень",
     imagePosition: "right center",

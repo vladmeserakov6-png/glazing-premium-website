@@ -6,7 +6,7 @@ import { gzipSync } from "node:zlib";
 
 export function serveExport({
   port = 4183,
-  basePath = "/glazing-premium-website/upgrade",
+  basePath = "/glazing-premium-website",
   root = resolve("out"),
 } = {}) {
   const types = {
@@ -86,7 +86,7 @@ if (
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
   const basePath =
-    process.env.NEXT_PUBLIC_BASE_PATH ?? "/glazing-premium-website/upgrade";
+    process.env.NEXT_PUBLIC_BASE_PATH ?? "/glazing-premium-website";
   const port = Number(process.env.PREVIEW_PORT ?? 4183);
   await serveExport({ basePath, port });
   console.log(`Статический предпросмотр: http://127.0.0.1:${port}${basePath}/`);

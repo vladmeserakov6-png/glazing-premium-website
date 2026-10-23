@@ -1,16 +1,15 @@
 import Image from "next/image";
-import { ArrowDown, ArrowUpRight, MoveUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { assetPath } from "@/lib/paths";
-import { ServiceButton } from "@/components/project/project-provider";
 
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-heading">
       <Image
         className="hero-image"
-        src={assetPath("/images/architecture.webp")}
-        alt="Современный дом с панорамным остеклением и открытым видом на сад — архитектурная визуализация"
+        src={assetPath("/images/tahion-hero.webp")}
+        alt="Панорамное остекление светлой прибрежной виллы с видом на море — архитектурная визуализация"
         fill
         sizes="100vw"
         loading="eager"
@@ -20,49 +19,37 @@ export function Hero() {
       <div className="hero-shade" />
       <div className="container hero-inner">
         <div className="hero-content">
-          <p className="hero-eyebrow">
-            <span />
-            СВЕТ МЕНЯЕТ ВСЁ
-          </p>
           <h1 id="hero-heading">
-            Современное
+            Больше света.
             <br />
-            остекление для
-            <br />
-            вашего комфорта<span>.</span>
+            Ближе к миру.
           </h1>
           <p className="hero-description">
-            Окна, балконы, террасы и загородные дома —
-            <br className="desktop-break" /> решения, которые открывают
-            пространство.
+            Панорамное остекление
+            <br />
+            для вашего пространства
           </p>
           <div className="hero-actions">
-            <ButtonLink href="#finder">
-              Подобрать решение <ArrowUpRight size={19} />
-            </ButtonLink>
-            <ButtonLink variant="outline" href="#services">
-              Каталог услуг <ArrowDown size={17} />
+            <ButtonLink variant="dark" href="#finder">
+              Подобрать решение <ArrowUpRight size={18} strokeWidth={1.3} />
             </ButtonLink>
           </div>
         </div>
         <div className="hero-bottom">
-          <a className="hero-scroll" href="#services">
+          <p className="hero-categories">
+            ОКНА <span>/</span> ФАСАДЫ <span>/</span> РАЗДВИЖНЫЕ СИСТЕМЫ
+          </p>
+          <a
+            className="hero-scroll"
+            href="#details"
+            aria-label="Исследовать технологии TAHION"
+          >
+            <span>Исследовать</span>
             <span className="scroll-circle">
-              <ArrowDown size={17} />
+              <ArrowDown size={20} strokeWidth={1.2} />
             </span>
-            <span>Откройте новые возможности</span>
           </a>
-          <ServiceButton serviceId="panoramic-glazing" className="hero-feature">
-            <span>
-              <span className="hero-feature-label">В ЦЕНТРЕ ВНИМАНИЯ</span>
-              <span className="hero-feature-title">Панорамное остекление</span>
-            </span>
-            <MoveUpRight size={27} strokeWidth={1.4} />
-          </ServiceButton>
         </div>
-      </div>
-      <div className="hero-coordinate" aria-hidden="true">
-        ПРОСТРАНСТВО / СВЕТ / АРХИТЕКТУРА
       </div>
     </section>
   );

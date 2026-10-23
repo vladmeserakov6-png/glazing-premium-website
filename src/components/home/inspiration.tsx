@@ -12,28 +12,28 @@ import { assetPath } from "@/lib/paths";
 
 const references = [
   {
-    image: "/images/architecture.webp",
+    image: "/images/tahion-house.webp",
     title: "Дом, открытый природе",
     tag: "ЗАГОРОДНАЯ АРХИТЕКТУРА",
     serviceId: "cottage-glazing",
     alt: "Стеклянный фасад загородного дома в окружении зелени",
   },
   {
-    image: "/images/terrace.webp",
+    image: "/images/tahion-terrace.webp",
     title: "Граница становится невидимой",
     tag: "ТЕРРАСЫ И ВЕРАНДЫ",
     serviceId: "terrace-glazing",
     alt: "Стеклянная терраса с обеденным столом и садом за окнами",
   },
   {
-    image: "/images/interior.webp",
+    image: "/images/tahion-panoramic.webp",
     title: "Пейзаж как часть интерьера",
     tag: "ПАНОРАМНОЕ ОСТЕКЛЕНИЕ",
     serviceId: "panoramic-glazing",
     alt: "Гостиная с панорамными окнами и видом на природу",
   },
   {
-    image: "/images/balcony.webp",
+    image: "/images/tahion-balcony.webp",
     title: "Свое место у окна",
     tag: "БАЛКОНЫ И ЛОДЖИИ",
     serviceId: "balcony-glazing",

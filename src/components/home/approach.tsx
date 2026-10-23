@@ -32,7 +32,7 @@ export function Approach() {
       <div className="container approach-grid">
         <div className="approach-image">
           <Image
-            src={assetPath("/images/interior.webp")}
+            src={assetPath("/images/tahion-panoramic.webp")}
             alt="Гостиная, объединенная с садом панорамными окнами — визуальный референс"
             fill
             sizes="(max-width: 900px) 100vw, 50vw"

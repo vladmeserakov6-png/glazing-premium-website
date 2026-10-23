@@ -64,7 +64,7 @@ export function formatProjectBrief(
     services.find((service) => service.id === data.service)?.title ??
     "Нужна помощь с выбором";
   return [
-    "ЗАДАНИЕ НА РАСЧЕТ ОСТЕКЛЕНИЯ",
+    "TAHION — ЗАДАНИЕ НА РАСЧЕТ ОСТЕКЛЕНИЯ",
     "",
     `Объект: ${data.object}`,
     `Решение: ${title}`,

@@ -17,7 +17,18 @@ export function Services() {
   const [category, setCategory] = useState<"all" | ServiceCategory>("all");
   const [expanded, setExpanded] = useState(false);
   const { saved, openSelection } = useProject();
-  const filtered = services.filter(
+  const featured = [
+    "panoramic-glazing",
+    "cottage-glazing",
+    "balcony-glazing",
+    "terrace-glazing",
+  ];
+  const catalog = [...services].sort((a, b) => {
+    const rank = (id: string) =>
+      featured.includes(id) ? featured.indexOf(id) : featured.length;
+    return rank(a.id) - rank(b.id);
+  });
+  const filtered = catalog.filter(
     (service) => category === "all" || category === service.category,
   );
   const visible =
@@ -33,9 +44,9 @@ export function Services() {
         <Reveal>
           <SectionHeading
             number="01"
-            eyebrow="РЕШЕНИЯ ДЛЯ ВАШЕГО ПРОСТРАНСТВА"
-            title="У каждого пространства — свой характер"
-            description="От уютного балкона до панорамного фасада. Найдите остекление, которое подходит именно вам."
+            eyebrow="УСЛУГИ"
+            title="Решения для вашего пространства."
+            description="От окна в квартире до панорамного фасада"
             id="services-heading"
           />
         </Reveal>
@@ -89,18 +100,18 @@ export function Services() {
                     src={assetPath(service.image)}
                     alt={service.imageAlt}
                     fill
-                    sizes="(max-width: 599px) 100vw, (max-width: 1099px) 50vw, 25vw"
+                    sizes="(max-width: 767px) 50vw, 25vw"
                     style={{
                       objectFit: "cover",
                       objectPosition: service.imagePosition,
                     }}
                   />
-                  <span className="service-arrow">
-                    <ArrowUpRight size={22} strokeWidth={1.5} />
-                  </span>
                 </div>
                 <div className="service-card-content">
                   <h3>{service.shortTitle}</h3>
+                  <span className="service-arrow" aria-hidden="true">
+                    <ArrowUpRight size={19} strokeWidth={1.3} />
+                  </span>
                 </div>
               </ServiceButton>
               <p>{service.description}</p>
@@ -116,7 +127,7 @@ export function Services() {
               onClick={() => setExpanded(!expanded)}
               aria-expanded={expanded}
             >
-              {expanded ? "Свернуть каталог" : "Все решения по остеклению"}
+              {expanded ? "Свернуть каталог" : "Все услуги"}
               <span>{expanded ? "−" : "+4"}</span>
               <ArrowDown size={17} className={expanded ? "rotate-180" : ""} />
             </button>

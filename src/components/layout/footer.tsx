@@ -14,7 +14,7 @@ export function Footer() {
             <p className="footer-description">
               Больше света.
               <br />
-              Больше пространства для жизни.
+              Ближе к миру.
             </p>
           </div>
           <div className="footer-links">
@@ -38,7 +38,7 @@ export function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} ПРОСВЕТ. Дизайн-концепция.</p>
+          <p>© {new Date().getFullYear()} TAHION.</p>
           <p>Изображения — архитектурные референсы.</p>
           <a href={homeAnchor("#top")}>
             Наверх <ArrowUp size={15} />
